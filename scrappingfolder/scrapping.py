@@ -312,7 +312,7 @@ df = pd.DataFrame({'Producto':nom, 'Precio':price, 'URL':url})
 df.to_csv('cooltiva.csv', index=False, encoding='utf-8')
 """
 """
-#Anterior pagina Herbolario
+#Anterior pagina Herbolario ELIMINADA!
 URL = 'https://www.herbolario.cl/lista-de-precios'
 page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
 soup = BeautifulSoup(page.content, 'html.parser')
@@ -338,9 +338,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -350,7 +350,7 @@ for pag in range(1,2):
         nom.append(nomProdname)
         #print(nomProdtext['href'])
         url.append(nomProdtext['href'])
-        nomProdPrice = itemProd.find('div',{'class':'product-block__price'})
+        nomProdPrice = itemProd.find('div',{'class':'product-block__price product-block__price--discount'})
         priceNum = nomProdPrice.text
         priceNum = priceNum.replace('.','')
         if len(priceNum) > 5:
@@ -365,9 +365,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -379,12 +379,15 @@ for pag in range(1,2):
         url.append(nomProdtext['href'])
         nomProdPrice = itemProd.find('div',{'class':'product-block__price'})
         priceNum = nomProdPrice.text
+        #print(priceNum) Desde Precio
         priceNum = priceNum.replace('.','')
         if len(priceNum) > 5:
             priceNum = priceNum.replace('$',' - ')
         else:
             priceNum = priceNum.replace('$','')
+        #print(priceNum)
         priceNum = priceNum.replace(' ','')
+        #print(("\d+", priceNum)[0])
         price.append(re.findall("\d+", priceNum)[0])
 
 for pag in range(1,2):
@@ -392,9 +395,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -419,9 +422,9 @@ for pag in range(1,3):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -446,9 +449,9 @@ for pag in range(1,3):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -473,9 +476,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -500,9 +503,9 @@ for pag in range(1,3):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -527,9 +530,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -554,9 +557,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -581,9 +584,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -608,9 +611,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -635,9 +638,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -662,9 +665,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -689,9 +692,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -716,9 +719,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -743,9 +746,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -770,9 +773,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -797,9 +800,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -824,9 +827,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -851,9 +854,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -878,9 +881,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -905,9 +908,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -932,9 +935,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
@@ -959,9 +962,9 @@ for pag in range(1,2):
     page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
     print("Pagina: "+str(pag))
     soup = BeautifulSoup(page.content, 'html.parser')
-    prods = soup.find_all('div', {'class':'col-12 col-sm-6 col-md-4 col-lg-3 product-block trsn'})
+    prods = soup.find_all('div', {'class':'product-block col-12 col-sm-6 col-md-4 col-lg-3 trsn'})
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-block__info text-center'})
+        nomProd = itemProd.find('div', {'class':'product-block__info'})
         nomProdtext = nomProd.find('a')
         nomProdname = nomProdtext.text
         nomProdname = nomProdname.replace('  ','')
