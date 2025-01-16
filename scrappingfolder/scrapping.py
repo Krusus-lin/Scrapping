@@ -9,7 +9,59 @@ np.seterr(all='ignore')
 nom=[]
 format=[]
 price=[]
+price2 = []
 url=[]
+
+#Reachem
+for pag in range(1,2):
+    URL = 'https://reachem.cl/categoria-producto/envases/?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'product-wrapper'})
+    #print(prods)
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('span',{'class':'price'})
+        #rint(nomProdPrice)
+        if nomProdPrice != None:
+            priceNum = nomProdPrice.text
+            #print(priceNum) #-->$200 - $500 // $250
+            priceNum = priceNum.replace('.','')
+            priceNum = priceNum.replace('$','')
+            priceNum = priceNum.replace(' ','')
+            priceNum = priceNum.split('–')
+            #print(priceNum)
+            if len(priceNum) == 1:
+                priceNum = priceNum[0]
+                #print(priceNum)
+                price.append(re.findall("\d+", priceNum)[0])
+            else:
+                priceNum1 = priceNum[0]
+                priceNum2 = priceNum[1]
+                print(priceNum1)
+                price.append(re.findall("\d+", priceNum1)[0])
+                price2.append(re.findall("\d+", priceNum2)[0])
+        else:
+            continue
+
+df = pd.DataFrame({'Producto':nom, 'PrecioMín':price, 'PrecioMáx':price2, 'URL':url})
+df.to_csv('reachem.csv', index=False, encoding='utf-8')
+
+
+
+
 """
 #Spacionatural
 for pag in range(1,3):
