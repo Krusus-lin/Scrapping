@@ -12,6 +12,469 @@ price=[]
 price2 = []
 url=[]
 
+#Karite
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/catalogo/aromas?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/mantecas?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,3):
+    URL = 'https://www.karitelaserena.cl/aceites-esenciales-katmandu?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/colorantes-y-polvos?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/emulsionantes-y-ceras?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/activos?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/bases?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/hierba?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/preservante?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/tensioactivos?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/otros?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/accesorios?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,3):
+    URL = 'https://www.karitelaserena.cl/para-jabones?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,3):
+    URL = 'https://www.karitelaserena.cl/envases?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/tapas?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/productos-cosmeticos?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+for pag in range(1,2):
+    URL = 'https://www.karitelaserena.cl/hazla-tu-misma?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'col-lg-4 col-6 px-md-2 px-1'})
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'brand-name small trsn'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('div',{'class':'list-price'})
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+df = pd.DataFrame({'Producto':nom, 'Precio':price, 'URL':url})
+df.to_csv('karite.csv', index=False, encoding='utf-8')
+"""
 #Reachem
 for pag in range(1,2):
     URL = 'https://reachem.cl/categoria-producto/envases/?page='+str(pag)
@@ -44,24 +507,218 @@ for pag in range(1,2):
             priceNum = priceNum.split('–')
             #print(priceNum)
             if len(priceNum) == 1:
-                priceNum = priceNum[0]
-                #print(priceNum)
-                price.append(re.findall("\d+", priceNum)[0])
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append('')
             else:
-                priceNum1 = priceNum[0]
-                priceNum2 = priceNum[1]
-                print(priceNum1)
-                price.append(re.findall("\d+", priceNum1)[0])
-                price2.append(re.findall("\d+", priceNum2)[0])
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append(re.findall("\d+", priceNum[1])[0])
         else:
-            continue
+            price.append('')
+            price2.append('')
+
+for pag in range(1,2):
+    URL = 'https://reachem.cl/categoria-producto/perfumeria/?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'product-wrapper'})
+    #print(prods)
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('span',{'class':'price'})
+        #rint(nomProdPrice)
+        if nomProdPrice != None:
+            priceNum = nomProdPrice.text
+            #print(priceNum) #-->$200 - $500 // $250
+            priceNum = priceNum.replace('.','')
+            priceNum = priceNum.replace('$','')
+            priceNum = priceNum.replace(' ','')
+            priceNum = priceNum.split('–')
+            #print(priceNum)
+            if len(priceNum) == 1:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append('')
+            else:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append(re.findall("\d+", priceNum[1])[0])
+        else:
+            price.append('')
+            price2.append('')
+
+for pag in range(1,2):
+    URL = 'https://reachem.cl/categoria-producto/materias-primas/?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'product-wrapper'})
+    #print(prods)
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('span',{'class':'price'})
+        #rint(nomProdPrice)
+        if nomProdPrice != None:
+            priceNum = nomProdPrice.text
+            #print(priceNum) #-->$200 - $500 // $250
+            priceNum = priceNum.replace('.','')
+            priceNum = priceNum.replace('$','')
+            priceNum = priceNum.replace(' ','')
+            priceNum = priceNum.split('–')
+            #print(priceNum)
+            if len(priceNum) == 1:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append('')
+            else:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append(re.findall("\d+", priceNum[1])[0])
+        else:
+            price.append('')
+            price2.append('')
+
+for pag in range(1,2):
+    URL = 'https://reachem.cl/categoria-producto/higieneysalud/?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'product-wrapper'})
+    #print(prods)
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('span',{'class':'price'})
+        #rint(nomProdPrice)
+        if nomProdPrice != None:
+            priceNum = nomProdPrice.text
+            #print(priceNum) #-->$200 - $500 // $250
+            priceNum = priceNum.replace('.','')
+            priceNum = priceNum.replace('$','')
+            priceNum = priceNum.replace(' ','')
+            priceNum = priceNum.split('–')
+            #print(priceNum)
+            if len(priceNum) == 1:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append('')
+            else:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append(re.findall("\d+", priceNum[1])[0])
+        else:
+            price.append('')
+            price2.append('')
+
+for pag in range(1,2):
+    URL = 'https://reachem.cl/categoria-producto/productos-quimicos/matelabeinstru/?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'product-wrapper'})
+    #print(prods)
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('span',{'class':'price'})
+        #rint(nomProdPrice)
+        if nomProdPrice != None:
+            priceNum = nomProdPrice.text
+            #print(priceNum) #-->$200 - $500 // $250
+            priceNum = priceNum.replace('.','')
+            priceNum = priceNum.replace('$','')
+            priceNum = priceNum.replace(' ','')
+            priceNum = priceNum.split('–')
+            #print(priceNum)
+            if len(priceNum) == 1:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append('')
+            else:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append(re.findall("\d+", priceNum[1])[0])
+        else:
+            price.append('')
+            price2.append('')
+
+for pag in range(1,2):
+    URL = 'https://reachem.cl/categoria-producto/matcolegio/?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('div', {'class':'product-wrapper'})
+    #print(prods)
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('span',{'class':'price'})
+        #rint(nomProdPrice)
+        if nomProdPrice != None:
+            priceNum = nomProdPrice.text
+            #print(priceNum) #-->$200 - $500 // $250
+            priceNum = priceNum.replace('.','')
+            priceNum = priceNum.replace('$','')
+            priceNum = priceNum.replace(' ','')
+            priceNum = priceNum.split('–')
+            #print(priceNum)
+            if len(priceNum) == 1:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append('')
+            else:
+                price.append(re.findall("\d+", priceNum[0])[0])
+                price2.append(re.findall("\d+", priceNum[1])[0])
+        else:
+            price.append('')
+            price2.append('')
 
 df = pd.DataFrame({'Producto':nom, 'PrecioMín':price, 'PrecioMáx':price2, 'URL':url})
 df.to_csv('reachem.csv', index=False, encoding='utf-8')
-
-
-
-
+"""
 """
 #Spacionatural
 for pag in range(1,3):
