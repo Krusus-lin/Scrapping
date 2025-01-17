@@ -3,15 +3,27 @@ import pandas as pd
 import requests
 import re
 import numpy as np
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.action_chains import ActionChains
+import time
 
 np.seterr(all='ignore')
 
+#Set Selenium
+
+service = Service("scrappingfolder/chromedriver.exe")
+driver = webdriver.Chrome(service=service)
+
+#Headers
 nom=[]
 format=[]
 price=[]
 price2 = []
 url=[]
 
+"""
 #Karite
 for pag in range(1,2):
     URL = 'https://www.karitelaserena.cl/catalogo/aromas?page='+str(pag)
@@ -475,37 +487,40 @@ for pag in range(1,2):
 df = pd.DataFrame({'Producto':nom, 'Precio':price, 'URL':url})
 df.to_csv('karite.csv', index=False, encoding='utf-8')
 """
+"""
 #Reachem
-for pag in range(1,2):
-    URL = 'https://reachem.cl/categoria-producto/envases/?page='+str(pag)
-    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
-    print("Pagina: "+str(pag))
-    soup = BeautifulSoup(page.content, 'html.parser')
-    #print(soup)
-    prods = soup.find_all('div', {'class':'product-wrapper'})
-    #print(prods)
+def scrape_reachem(url, category_name):
+    print(f"Scraping categoría: {category_name}")
+    driver.get(url)
+    time.sleep(4)
+
+    scroll_pause_time = 2
+    last_height = driver.execute_script("return document.body.scrollHeight")
+
+    while True:
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(scroll_pause_time)
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        if new_height == last_height:
+            break
+        last_height = new_height
+
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    prods = soup.find_all('div', {'class': 'product-wrapper'})
+
+    nom, price, price2, url_list = [], [], [], []
     for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
-        #print(nomProd)
+        nomProd = itemProd.find('div', {'class': 'product-element-bottom'})
         nomProdtext = nomProd.find('a')
-        nomProdname = nomProdtext.text
-        nomProdname = nomProdname.replace('  ','')
-        nomProdname = nomProdname.replace('   ','')
-        nomProdname = nomProdname.replace('\n','')
-        #print(nomProdtext.text)
+        nomProdname = nomProdtext.text.strip()
         nom.append(nomProdname)
-        #print(nomProdtext['href'])
-        url.append(nomProdtext['href'])
-        nomProdPrice = itemProd.find('span',{'class':'price'})
-        #rint(nomProdPrice)
-        if nomProdPrice != None:
-            priceNum = nomProdPrice.text
-            #print(priceNum) #-->$200 - $500 // $250
-            priceNum = priceNum.replace('.','')
-            priceNum = priceNum.replace('$','')
-            priceNum = priceNum.replace(' ','')
+        url_list.append(nomProdtext['href'])
+
+        nomProdPrice = itemProd.find('span', {'class': 'price'})
+        if nomProdPrice:
+            priceNum = nomProdPrice.text.replace('.', '').replace('$', '').replace(' ', '')
             priceNum = priceNum.split('–')
-            #print(priceNum)
+
             if len(priceNum) == 1:
                 price.append(re.findall("\d+", priceNum[0])[0])
                 price2.append('')
@@ -516,208 +531,34 @@ for pag in range(1,2):
             price.append('')
             price2.append('')
 
-for pag in range(1,2):
-    URL = 'https://reachem.cl/categoria-producto/perfumeria/?page='+str(pag)
-    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
-    print("Pagina: "+str(pag))
-    soup = BeautifulSoup(page.content, 'html.parser')
-    #print(soup)
-    prods = soup.find_all('div', {'class':'product-wrapper'})
-    #print(prods)
-    for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
-        #print(nomProd)
-        nomProdtext = nomProd.find('a')
-        nomProdname = nomProdtext.text
-        nomProdname = nomProdname.replace('  ','')
-        nomProdname = nomProdname.replace('   ','')
-        nomProdname = nomProdname.replace('\n','')
-        #print(nomProdtext.text)
-        nom.append(nomProdname)
-        #print(nomProdtext['href'])
-        url.append(nomProdtext['href'])
-        nomProdPrice = itemProd.find('span',{'class':'price'})
-        #rint(nomProdPrice)
-        if nomProdPrice != None:
-            priceNum = nomProdPrice.text
-            #print(priceNum) #-->$200 - $500 // $250
-            priceNum = priceNum.replace('.','')
-            priceNum = priceNum.replace('$','')
-            priceNum = priceNum.replace(' ','')
-            priceNum = priceNum.split('–')
-            #print(priceNum)
-            if len(priceNum) == 1:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append('')
-            else:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append(re.findall("\d+", priceNum[1])[0])
-        else:
-            price.append('')
-            price2.append('')
+    
+    df = pd.DataFrame({'Producto': nom, 'PrecioMín': price, 'PrecioMáx': price2, 'URL': url_list})
+    df['Categoría'] = category_name
+    return df
 
-for pag in range(1,2):
-    URL = 'https://reachem.cl/categoria-producto/materias-primas/?page='+str(pag)
-    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
-    print("Pagina: "+str(pag))
-    soup = BeautifulSoup(page.content, 'html.parser')
-    #print(soup)
-    prods = soup.find_all('div', {'class':'product-wrapper'})
-    #print(prods)
-    for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
-        #print(nomProd)
-        nomProdtext = nomProd.find('a')
-        nomProdname = nomProdtext.text
-        nomProdname = nomProdname.replace('  ','')
-        nomProdname = nomProdname.replace('   ','')
-        nomProdname = nomProdname.replace('\n','')
-        #print(nomProdtext.text)
-        nom.append(nomProdname)
-        #print(nomProdtext['href'])
-        url.append(nomProdtext['href'])
-        nomProdPrice = itemProd.find('span',{'class':'price'})
-        #rint(nomProdPrice)
-        if nomProdPrice != None:
-            priceNum = nomProdPrice.text
-            #print(priceNum) #-->$200 - $500 // $250
-            priceNum = priceNum.replace('.','')
-            priceNum = priceNum.replace('$','')
-            priceNum = priceNum.replace(' ','')
-            priceNum = priceNum.split('–')
-            #print(priceNum)
-            if len(priceNum) == 1:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append('')
-            else:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append(re.findall("\d+", priceNum[1])[0])
-        else:
-            price.append('')
-            price2.append('')
+#Lista de URLs y nombres de categorías
+categories = {
+    'https://reachem.cl/categoria-producto/envases/': 'Envases',
+    'https://reachem.cl/categoria-producto/perfumeria/': 'Perfumería',
+    'https://reachem.cl/categoria-producto/materias-primas/': 'Materias Primas',
+    'https://reachem.cl/categoria-producto/higieneysalud/': 'Higiene y Salud',
+    'https://reachem.cl/categoria-producto/productos-quimicos/matelabeinstru/': 'Lab e instrumentos',
+    'https://reachem.cl/categoria-producto/matcolegio/': 'Materiales colegio',
+}
 
-for pag in range(1,2):
-    URL = 'https://reachem.cl/categoria-producto/higieneysalud/?page='+str(pag)
-    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
-    print("Pagina: "+str(pag))
-    soup = BeautifulSoup(page.content, 'html.parser')
-    #print(soup)
-    prods = soup.find_all('div', {'class':'product-wrapper'})
-    #print(prods)
-    for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
-        #print(nomProd)
-        nomProdtext = nomProd.find('a')
-        nomProdname = nomProdtext.text
-        nomProdname = nomProdname.replace('  ','')
-        nomProdname = nomProdname.replace('   ','')
-        nomProdname = nomProdname.replace('\n','')
-        #print(nomProdtext.text)
-        nom.append(nomProdname)
-        #print(nomProdtext['href'])
-        url.append(nomProdtext['href'])
-        nomProdPrice = itemProd.find('span',{'class':'price'})
-        #rint(nomProdPrice)
-        if nomProdPrice != None:
-            priceNum = nomProdPrice.text
-            #print(priceNum) #-->$200 - $500 // $250
-            priceNum = priceNum.replace('.','')
-            priceNum = priceNum.replace('$','')
-            priceNum = priceNum.replace(' ','')
-            priceNum = priceNum.split('–')
-            #print(priceNum)
-            if len(priceNum) == 1:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append('')
-            else:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append(re.findall("\d+", priceNum[1])[0])
-        else:
-            price.append('')
-            price2.append('')
+#Dataframe final
+final_df = pd.DataFrame()
 
-for pag in range(1,2):
-    URL = 'https://reachem.cl/categoria-producto/productos-quimicos/matelabeinstru/?page='+str(pag)
-    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
-    print("Pagina: "+str(pag))
-    soup = BeautifulSoup(page.content, 'html.parser')
-    #print(soup)
-    prods = soup.find_all('div', {'class':'product-wrapper'})
-    #print(prods)
-    for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
-        #print(nomProd)
-        nomProdtext = nomProd.find('a')
-        nomProdname = nomProdtext.text
-        nomProdname = nomProdname.replace('  ','')
-        nomProdname = nomProdname.replace('   ','')
-        nomProdname = nomProdname.replace('\n','')
-        #print(nomProdtext.text)
-        nom.append(nomProdname)
-        #print(nomProdtext['href'])
-        url.append(nomProdtext['href'])
-        nomProdPrice = itemProd.find('span',{'class':'price'})
-        #rint(nomProdPrice)
-        if nomProdPrice != None:
-            priceNum = nomProdPrice.text
-            #print(priceNum) #-->$200 - $500 // $250
-            priceNum = priceNum.replace('.','')
-            priceNum = priceNum.replace('$','')
-            priceNum = priceNum.replace(' ','')
-            priceNum = priceNum.split('–')
-            #print(priceNum)
-            if len(priceNum) == 1:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append('')
-            else:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append(re.findall("\d+", priceNum[1])[0])
-        else:
-            price.append('')
-            price2.append('')
+#Recorrer todas las categorías
+for url, category_name in categories.items():
+    category_df = scrape_reachem(url, category_name)
+    final_df = pd.concat([final_df, category_df], ignore_index=True)
 
-for pag in range(1,2):
-    URL = 'https://reachem.cl/categoria-producto/matcolegio/?page='+str(pag)
-    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
-    print("Pagina: "+str(pag))
-    soup = BeautifulSoup(page.content, 'html.parser')
-    #print(soup)
-    prods = soup.find_all('div', {'class':'product-wrapper'})
-    #print(prods)
-    for itemProd in prods:
-        nomProd = itemProd.find('div', {'class':'product-element-bottom'})
-        #print(nomProd)
-        nomProdtext = nomProd.find('a')
-        nomProdname = nomProdtext.text
-        nomProdname = nomProdname.replace('  ','')
-        nomProdname = nomProdname.replace('   ','')
-        nomProdname = nomProdname.replace('\n','')
-        #print(nomProdtext.text)
-        nom.append(nomProdname)
-        #print(nomProdtext['href'])
-        url.append(nomProdtext['href'])
-        nomProdPrice = itemProd.find('span',{'class':'price'})
-        #rint(nomProdPrice)
-        if nomProdPrice != None:
-            priceNum = nomProdPrice.text
-            #print(priceNum) #-->$200 - $500 // $250
-            priceNum = priceNum.replace('.','')
-            priceNum = priceNum.replace('$','')
-            priceNum = priceNum.replace(' ','')
-            priceNum = priceNum.split('–')
-            #print(priceNum)
-            if len(priceNum) == 1:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append('')
-            else:
-                price.append(re.findall("\d+", priceNum[0])[0])
-                price2.append(re.findall("\d+", priceNum[1])[0])
-        else:
-            price.append('')
-            price2.append('')
+#Guardar datos en .CSV
+final_df.to_csv('reachem_all_categories.csv', index=False, encoding='utf-8')
 
-df = pd.DataFrame({'Producto':nom, 'PrecioMín':price, 'PrecioMáx':price2, 'URL':url})
-df.to_csv('reachem.csv', index=False, encoding='utf-8')
+#Cerrar el driver
+driver.quit()
 """
 """
 #Spacionatural
