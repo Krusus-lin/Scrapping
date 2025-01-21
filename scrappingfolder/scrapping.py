@@ -487,6 +487,114 @@ for pag in range(1,2):
 df = pd.DataFrame({'Producto':nom, 'Precio':price, 'URL':url})
 df.to_csv('karite.csv', index=False, encoding='utf-8')
 """
+
+#Cooltiva
+# URL de la página a scrapear
+URL = 'https://cooltiva.cl/collections/nuestros-productos'
+
+# Abrir la página con Selenium
+driver.get(URL)
+time.sleep(3)  # Espera inicial para cargar la página
+
+# Simular desplazamiento para cargar elementos dinámicos
+scroll_pause_time = 2  # Tiempo de espera entre desplazamientos
+last_height = driver.execute_script("return document.body.scrollHeight")
+
+while True:
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(scroll_pause_time)
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    if new_height == last_height:
+        break
+    last_height = new_height
+
+# Extraer el HTML renderizado después de cargar todos los elementos
+soup = BeautifulSoup(driver.page_source, 'html.parser')
+prods = soup.find_all('div', {'class':'hp-title'})
+
+# Procesar los productos
+for itemProd in prods:
+    nomProd = itemProd.find('a').find('span', {'class':'indiv-product-title-text'})
+    #print(nomProd.text)
+    nomProdtext = itemProd.find('a')
+    nomProdname = nomProdtext.text
+    nomProd = nomProd.text
+    nomProd = nomProd.replace(',','')
+    nomProd = nomProd.replace('"','')
+    nomProd = nomProd.replace('  ','')
+    nomProd = nomProd.replace('   ','')
+    nomProd = nomProd.replace('\n','')
+    nomProdname = nomProdname.replace('  ','')
+    nomProdname = nomProdname.replace('   ','')
+    nomProdname = nomProdname.replace('\n','')
+    nomProdname = nomProdname.split('$')
+    nomProdname = nomProdname[0]
+    nom.append(nomProdname)
+
+    # URL del producto
+    url.append(nomProdtext['href'])
+
+    # Precio del producto
+    nomProdPrice = itemProd.find('span',{'class':'money'})
+    if nomProdPrice:
+        priceNum = nomProdPrice.text
+        priceNum = priceNum.replace('.','')
+        priceNum = priceNum.replace('$','')
+        priceNum = priceNum.replace(' ','')
+        price.append(re.findall("\d+", priceNum)[0])
+    else:
+        price.append('')  # En caso de que no haya precio
+
+# Crear un DataFrame y guardar los datos en un archivo CSV
+df = pd.DataFrame({'Producto': nom, 'Precio': price, 'URL': url})
+df.to_csv('cooltiva_all_products.csv', index=False, encoding='utf-8')
+
+
+# Cerrar el navegador
+driver.quit()
+
+"""
+#Cooltiva
+for pag in range(1,2):
+    URL = 'https://cooltiva.cl/collections/nuestros-productos/?page='+str(pag)
+    page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
+    print("Pagina: "+str(pag))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #print(soup)
+    prods = soup.find_all('product-card', {'class':'product-card'})
+    #print(prods)
+    for itemProd in prods:
+        nomProd = itemProd.find('div', {'class':'product-card__info empty:hidden'})
+        #print(nomProd)
+        nomProdtext = nomProd.find('a')
+        nomProdname = nomProdtext.text
+        nomProdname = nomProdname.replace('  ','')
+        nomProdname = nomProdname.replace('   ','')
+        nomProdname = nomProdname.replace('\n','')
+        #print(nomProdtext.text)
+        nom.append(nomProdname)
+        #print(nomProdtext['href'])
+        url.append(nomProdtext['href'])
+        nomProdPrice = itemProd.find('price-list',{'class':'price-list'})
+        priceNum = nomProdPrice.text
+        #print(priceNum)
+        priceNum = priceNum.replace('.','')
+        
+        priceNum = priceNum.split('$') #--> ['\nPrecio de oferta', '19800\nPrecio normal', '22000']
+        
+        if len(priceNum) == 2:
+            priceNum = priceNum[1]
+        elif len(priceNum) == 3:
+            priceNum = priceNum[2]
+
+        priceNum = priceNum.replace(' ','')
+        #print(priceNum)
+        #print(nomProdPrice.text)
+        price.append(re.findall("\d+", priceNum)[0])
+
+df = pd.DataFrame({'Producto':nom, 'Precio':price, 'URL':url})
+df.to_csv('cooltivaprueba.csv', index=False, encoding='utf-8')
+"""
 """
 #Reachem
 def scrape_reachem(url, category_name):
@@ -1534,7 +1642,7 @@ df = pd.DataFrame({'Producto':nom, 'Precio':price, 'URL':url})
 df.to_csv('spacionatural.csv', index=False, encoding='utf-8')
 """
 """
-#Cooltiva
+#Cooltiva anterior
 URL = 'https://cooltiva.cl/collections/nuestros-productos'
 page = requests.get(URL, headers={'User-Agent': 'Mozilla/5.0'})
 soup = BeautifulSoup(page.content, 'html.parser')
