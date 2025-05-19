@@ -23,7 +23,7 @@ price=[]
 price2 = []
 url=[]
 
-"""
+
 #Karite
 for pag in range(1,2):
     URL = 'https://www.karitelaserena.cl/catalogo/aromas?page='+str(pag)
@@ -486,17 +486,17 @@ for pag in range(1,2):
 
 df = pd.DataFrame({'Producto':nom, 'Precio':price, 'URL':url})
 df.to_csv('karite.csv', index=False, encoding='utf-8')
-"""
 
+"""
 #Cooltiva
-# URL de la página a scrapear
+# URL de la pagina a scrapear
 URL = 'https://cooltiva.cl/collections/nuestros-productos'
 
-# Abrir la página con Selenium
+# Abrir la pagina con Selenium
 driver.get(URL)
-time.sleep(3)  # Espera inicial para cargar la página
+time.sleep(3)  # Espera inicial para cargar la pagina
 
-# Simular desplazamiento para cargar elementos dinámicos
+# Simular desplazamiento para cargar elementos dinamicos
 scroll_pause_time = 2  # Tiempo de espera entre desplazamientos
 last_height = driver.execute_script("return document.body.scrollHeight")
 
@@ -508,7 +508,7 @@ while True:
         break
     last_height = new_height
 
-# Extraer el HTML renderizado después de cargar todos los elementos
+# Extraer el HTML renderizado despues de cargar todos los elementos
 soup = BeautifulSoup(driver.page_source, 'html.parser')
 prods = soup.find_all('div', {'class':'hp-title'})
 
@@ -552,7 +552,7 @@ df.to_csv('cooltiva_all_products.csv', index=False, encoding='utf-8')
 
 # Cerrar el navegador
 driver.quit()
-
+"""
 """
 #Cooltiva
 for pag in range(1,2):
@@ -598,7 +598,7 @@ df.to_csv('cooltivaprueba.csv', index=False, encoding='utf-8')
 """
 #Reachem
 def scrape_reachem(url, category_name):
-    print(f"Scraping categoría: {category_name}")
+    print(f"Scraping categoria: {category_name}")
     driver.get(url)
     time.sleep(4)
 
@@ -627,7 +627,7 @@ def scrape_reachem(url, category_name):
         nomProdPrice = itemProd.find('span', {'class': 'price'})
         if nomProdPrice:
             priceNum = nomProdPrice.text.replace('.', '').replace('$', '').replace(' ', '')
-            priceNum = priceNum.split('–')
+            priceNum = priceNum.split('-')
 
             if len(priceNum) == 1:
                 price.append(re.findall("\d+", priceNum[0])[0])
@@ -640,14 +640,14 @@ def scrape_reachem(url, category_name):
             price2.append('')
 
     
-    df = pd.DataFrame({'Producto': nom, 'PrecioMín': price, 'PrecioMáx': price2, 'URL': url_list})
-    df['Categoría'] = category_name
+    df = pd.DataFrame({'Producto': nom, 'PrecioMin': price, 'PrecioMax': price2, 'URL': url_list})
+    df['Categoria'] = category_name
     return df
 
-#Lista de URLs y nombres de categorías
+#Lista de URLs y nombres de categorias
 categories = {
     'https://reachem.cl/categoria-producto/envases/': 'Envases',
-    'https://reachem.cl/categoria-producto/perfumeria/': 'Perfumería',
+    'https://reachem.cl/categoria-producto/perfumeria/': 'Perfumeria',
     'https://reachem.cl/categoria-producto/materias-primas/': 'Materias Primas',
     'https://reachem.cl/categoria-producto/higieneysalud/': 'Higiene y Salud',
     'https://reachem.cl/categoria-producto/productos-quimicos/matelabeinstru/': 'Lab e instrumentos',
@@ -657,7 +657,7 @@ categories = {
 #Dataframe final
 final_df = pd.DataFrame()
 
-#Recorrer todas las categorías
+#Recorrer todas las categorias
 for url, category_name in categories.items():
     category_df = scrape_reachem(url, category_name)
     final_df = pd.concat([final_df, category_df], ignore_index=True)
