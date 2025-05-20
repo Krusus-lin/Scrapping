@@ -23,7 +23,7 @@ price=[]
 price2 = []
 url=[]
 
-
+"""
 #Karite
 for pag in range(1,2):
     URL = 'https://www.karitelaserena.cl/catalogo/aromas?page='+str(pag)
@@ -486,8 +486,8 @@ for pag in range(1,2):
 
 df = pd.DataFrame({'Producto':nom, 'Precio':price, 'URL':url})
 df.to_csv('karite.csv', index=False, encoding='utf-8')
-
 """
+
 #Cooltiva
 # URL de la pagina a scrapear
 URL = 'https://cooltiva.cl/collections/nuestros-productos'
@@ -552,7 +552,7 @@ df.to_csv('cooltiva_all_products.csv', index=False, encoding='utf-8')
 
 # Cerrar el navegador
 driver.quit()
-"""
+
 """
 #Cooltiva
 for pag in range(1,2):
