@@ -12,10 +12,10 @@ import time
 np.seterr(all='ignore')
 
 #Set Selenium
-
+"""
 service = Service("scrappingfolder/chromedriver.exe")
 driver = webdriver.Chrome(service=service)
-
+"""
 #Headers
 nom=[]
 format=[]
@@ -487,7 +487,7 @@ for pag in range(1,2):
 df = pd.DataFrame({'Producto':nom, 'Precio':price, 'URL':url})
 df.to_csv('karite.csv', index=False, encoding='utf-8')
 """
-
+"""
 #Cooltiva
 # URL de la pagina a scrapear
 URL = 'https://cooltiva.cl/collections/nuestros-productos'
@@ -552,7 +552,7 @@ df.to_csv('cooltiva_all_products.csv', index=False, encoding='utf-8')
 
 # Cerrar el navegador
 driver.quit()
-
+"""
 """
 #Cooltiva
 for pag in range(1,2):
